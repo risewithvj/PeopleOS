@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Find your PeopleOS in one sentence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+#peopleos-root,#peopleos-root *,#peopleos-root *::before,#peopleos-root *::after{box-sizing:border-box;}
+:where(#peopleos-root) *{margin:0;padding:0;}
+#peopleos-root{
+  --blue:#0363FC;--blue-lt:#5DA6DE;--blue-100:#9FCBF0;
+  --blue-deep:#0353E6;--navy:#0A102F;--ink:#0B1B2B;--muted:#5A6A85;
+  --sky:#EEF4FF;--sky-2:#F6FAFF;--line:#DCE8F7;--white:#ffffff;
+  --font:'Montserrat','Segoe UI',system-ui,Roboto,Helvetica,Arial,sans-serif;
+}
+#peopleos-root{font-family:var(--font);-webkit-font-smoothing:antialiased;color:var(--ink);line-height:normal;text-align:left;}
+#peopleos-root button,#peopleos-root input,#peopleos-root select,#peopleos-root textarea{font-family:inherit;}
+#peopleos-root [hidden]{display:none!important;}
+#sfinder{min-height:100vh;}
+/* ───────── Finder (extracted from the main PeopleOS page) ───────── */
+#sfinder{position:relative;overflow:hidden;color:var(--ink);padding:100px 48px 112px;background:linear-gradient(180deg,#FFFFFF 0%,#F1F7FF 100%);}
+#sfinder::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 50% at 50% 4%,rgba(3,99,252,.06) 0%,transparent 60%);}
+#sfinder .sf-in{position:relative;z-index:1;max-width:940px;margin:0 auto;}
+#sfinder .sf-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:22px;background:var(--sky);border:1px solid var(--line);padding:7px 15px;border-radius:100px;}
+#sfinder .sf-eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:#0363FC;box-shadow:0 0 10px rgba(3,99,252,.6);}
+#sfinder .sf-h{font-size:clamp(30px,4.4vw,52px);font-weight:800;letter-spacing:-1.5px;line-height:1.08;margin-bottom:16px;color:var(--navy);}
+#sfinder .sf-sub{font-size:15px;line-height:1.7;color:var(--muted);max-width:540px;margin-bottom:46px;}
+#sfinder .sentence{font-size:clamp(22px,3vw,35px);font-weight:600;line-height:1.75;color:#8496AE;max-width:900px;margin-bottom:42px;}
+#sfinder .blank{position:relative;display:inline-block;}
+#sfinder .blank-btn{font:inherit;font-weight:800;color:var(--blue);background:rgba(3,99,252,.08);border:none;border-bottom:2px dashed rgba(3,99,252,.4);border-radius:9px 9px 4px 4px;padding:1px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .2s,color .2s;}
+#sfinder .blank-btn:hover{background:rgba(3,99,252,.16);}
+#sfinder .blank.filled .blank-btn{color:#fff;background:var(--blue);border-bottom:2px solid var(--blue-deep);}
+#sfinder .blank-btn .caret{width:16px;height:16px;flex-shrink:0;transition:transform .2s;opacity:.8;}
+#sfinder .blank.open .blank-btn .caret{transform:rotate(180deg);}
+#sfinder .blank-input{font:inherit;font-weight:800;color:var(--navy);background:rgba(3,99,252,.10);border:none;border-bottom:2px solid var(--blue);border-radius:9px 9px 4px 4px;padding:1px 12px;min-width:190px;outline:none;}
+#sfinder .blank-input::placeholder{color:var(--muted);font-weight:600;}
+#sfinder .menu{position:absolute;top:calc(100% + 10px);left:0;z-index:30;min-width:270px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 26px 54px rgba(10,16,47,.16);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s;}
+#sfinder .blank.open .menu{opacity:1;visibility:visible;transform:translateY(0);}
+#sfinder .menu-opt{display:block;width:100%;text-align:left;font:inherit;font-size:15px;font-weight:600;color:var(--ink);background:none;border:none;border-radius:10px;padding:12px 15px;cursor:pointer;transition:background .15s,color .15s;}
+#sfinder .menu-opt:hover{background:var(--sky);color:var(--blue);}
+#sfinder .menu-opt.sel{background:rgba(3,99,252,.14);color:var(--blue);}
+#sfinder .menu-opt.custom{border-top:1px solid var(--line);margin-top:4px;color:var(--blue);}
+#sfinder .sf-foot{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+#sfinder .dots{display:flex;gap:9px;}
+#sfinder .dot{width:10px;height:10px;border-radius:50%;background:rgba(3,99,252,.18);transition:all .3s;}
+#sfinder .dot.on{background:var(--blue);box-shadow:0 0 12px rgba(3,99,252,.5);}
+#sfinder .reveal-btn{font:inherit;font-weight:800;font-size:15px;color:#fff;background:var(--blue);border:none;border-radius:100px;padding:15px 30px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:opacity .25s,transform .2s;opacity:.4;pointer-events:none;}
+#sfinder .reveal-btn.ready{opacity:1;pointer-events:auto;box-shadow:0 8px 22px rgba(3,99,252,.32);animation:sfglow 2.2s infinite;}
+@keyframes sfglow{0%{box-shadow:0 0 0 0 rgba(3,99,252,.4);}70%{box-shadow:0 0 0 15px rgba(3,99,252,0);}100%{box-shadow:0 0 0 0 rgba(3,99,252,0);}}
+#sfinder .reveal-btn span{transition:transform .2s;}#sfinder .reveal-btn.ready:hover{transform:translateY(-2px);}#sfinder .reveal-btn.ready:hover span{transform:translateX(4px);}
+#sfinder .startover{background:none;border:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+#sfinder .sf-result{max-height:0;overflow:hidden;opacity:0;transition:max-height .6s ease,opacity .5s ease,margin-top .5s ease;}
+#sfinder .sf-result.show{max-height:2400px;opacity:1;margin-top:44px;}
+#sfinder .res-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px;box-shadow:0 16px 44px rgba(10,16,47,.08);}
+#sfinder .res-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+#sfinder .res-h{font-size:clamp(20px,2.4vw,26px);font-weight:700;letter-spacing:-.5px;margin-bottom:28px;color:var(--navy);}
+#sfinder .res-tl{display:flex;align-items:flex-start;margin-bottom:30px;}
+#sfinder .res-tl .tl-n{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;min-width:64px;}
+#sfinder .res-tl .tl-n:not(:last-child)::after{content:'';position:absolute;top:8px;left:50%;width:100%;height:2px;background:var(--line);z-index:0;}
+#sfinder .res-tl .tl-c{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;position:relative;z-index:1;box-shadow:0 2px 8px rgba(10,16,47,.18);}
+#sfinder .res-tl .tl-c.os{background:var(--navy);color:#fff;}
+#sfinder .res-tl .tl-l{font-size:13.5px;font-weight:700;color:var(--navy);margin-top:12px;max-width:110px;line-height:1.3;letter-spacing:-.2px;}
+#sfinder .res-cards{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px;}
+#sfinder .rc-card{position:relative;flex:0 1 220px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;color:var(--navy);display:flex;flex-direction:column;box-shadow:0 3px 12px rgba(0,57,105,.05);opacity:0;animation:sfpop .35s ease forwards;}
+#sfinder .rc-card.hot{border-color:var(--blue);box-shadow:0 0 0 1px rgba(3,99,252,.4),0 14px 30px rgba(0,57,105,.14);}
+#sfinder .rc-type{font-size:14px;font-weight:700;color:var(--navy);letter-spacing:-.2px;margin-bottom:7px;}
+#sfinder .rc-desc{font-size:12px;line-height:1.5;color:var(--muted);flex:1;margin-bottom:14px;}
+#sfinder .rc-brand{align-self:flex-start;font-size:9.5px;font-weight:700;letter-spacing:.3px;color:var(--blue);background:var(--sky);border:1px solid var(--line);padding:4px 10px;border-radius:100px;}
+@keyframes sfpop{from{opacity:0;transform:scale(.9) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+#sfinder .res-note{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:600px;}
+#sfinder .res-note b{color:var(--navy);font-weight:700;}
+@media(max-width:700px){#sfinder{padding:70px 22px 90px;}#sfinder .sentence{line-height:1.95;}#sfinder .res-tl{overflow-x:auto;}}
+#sfinder .rc-why{font-size:11px;color:var(--muted);font-style:italic;margin-top:8px;}
+@media(max-width:820px){#sfinder .blank-input{font-size:16px;}#sfinder .menu{max-width:calc(100vw - 44px);min-width:0;width:max-content;}}
+@media(max-width:560px){#sfinder .rc-card{flex:1 1 100%;}#sfinder .res-tl .tl-l{font-size:11px;line-height:1.25;}#sfinder .res-tl .tl-n{min-width:0;}}
+/* ─────────── Get in touch: result CTA ─────────── */
+#sfinder .res-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:26px;padding:22px 24px;border-radius:18px;background:linear-gradient(135deg,#0A1E5C,#0733B0 55%,#0363FC);color:#fff;}
+#sfinder .res-cta-q{font-size:17px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px;}
+#sfinder .res-cta-s{font-size:13px;line-height:1.55;color:rgba(255,255,255,.78);max-width:420px;}
+#sfinder .cta-btn{font:inherit;font-weight:800;font-size:14.5px;color:var(--navy);background:#fff;border:none;border-radius:100px;padding:14px 24px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;min-height:48px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 22px rgba(0,0,0,.18);}
+#sfinder .cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.25);}
+#sfinder .cta-btn span{transition:transform .2s;}#sfinder .cta-btn:hover span{transform:translateX(3px);}
+#sfinder .cta-btn:focus-visible,.lf-btn:focus-visible,.lf-chip:focus-visible,#sfinder .res-soft{margin-top:16px;font-size:13.5px;color:var(--muted);}
+#sfinder .res-soft button{font:inherit;font-weight:700;color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;}
+#sfinder .res-loading{display:flex;align-items:center;gap:14px;font-weight:700;color:var(--navy);}
+#sfinder .spin{width:22px;height:22px;border-radius:50%;border:3px solid rgba(3,99,252,.2);border-top-color:var(--blue);animation:lfspin .8s linear infinite;}
+@keyframes lfspin{to{transform:rotate(360deg);}}
+
+/* ─────────── Get in touch: form ─────────── */
+html.lf-lock,html.lf-lock body{overflow:hidden;}
+.lf-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(7,12,36,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;}
+.lf-overlay.open{opacity:1;visibility:visible;}
+.lf-panel{position:relative;width:100%;max-width:680px;max-height:calc(100dvh - 48px);display:flex;flex-direction:column;background:#fff;border-radius:24px;box-shadow:0 40px 100px rgba(7,12,36,.45);overflow:hidden;transform:translateY(18px) scale(.985);transition:transform .3s cubic-bezier(.2,.7,.2,1);color:var(--ink);}
+.lf-overlay.open .lf-panel{transform:none;}
+.lf-close{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;}
+.lf-close:hover{background:var(--sky);color:var(--navy);}
+.lf-h{font-size:clamp(22px,3vw,28px);font-weight:800;letter-spacing:-.8px;color:var(--navy);margin:6px 0 6px;outline:none;}
+.lf-sub{font-size:14px;line-height:1.6;color:var(--muted);margin-bottom:18px;}
+.lf-ctx{background:var(--sky-2);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:22px;}
+.lf-ctx-l{font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.lf-ctx-s{font-size:13.5px;line-height:1.55;color:var(--navy);font-weight:600;margin-bottom:10px;}
+.lf-ctx-s em{font-style:normal;color:var(--blue);}
+.lf-mini{display:flex;flex-wrap:wrap;gap:6px;}
+.lf-mini span{font-size:11.5px;font-weight:700;color:var(--blue-deep);background:#fff;border:1px solid #CFE0F7;border-radius:100px;padding:4px 10px;}
+.lf-field{margin-bottom:18px;min-width:0;}
+.lf-label{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+.lf-label small{font-size:12px;font-weight:600;color:var(--muted);}
+.lf-req{color:#D92D20;margin-left:2px;}
+.lf-input,.lf-select,.lf-textarea{width:100%;font:inherit;font-size:15px;font-weight:500;color:var(--navy);background:#fff;border:1.5px solid #D5E2F4;border-radius:12px;padding:0 14px;min-height:48px;transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none;}
+.lf-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6A85' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:40px;}
+.lf-textarea{padding:13px 14px;min-height:132px;line-height:1.55;resize:vertical;}
+.lf-input::placeholder,.lf-textarea::placeholder{color:#9AA9C0;font-weight:500;}
+.lf-input:focus,.lf-select:focus,.lf-textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(3,99,252,.12);}
+.lf-input[aria-invalid="true"],.lf-select[aria-invalid="true"],.lf-textarea[aria-invalid="true"]{border-color:#D92D20;box-shadow:0 0 0 4px rgba(217,45,32,.10);}
+.lf-err{display:none;align-items:center;gap:6px;margin-top:7px;font-size:12.5px;font-weight:600;color:#D92D20;}
+.lf-err.show{display:flex;}
+.lf-err::before{content:'!';flex:none;width:16px;height:16px;border-radius:50%;background:#D92D20;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.lf-hint{margin-top:7px;font-size:12px;color:var(--muted);}
+.lf-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+.lf-chips{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;}
+.lf-chip{font:inherit;font-size:13px;font-weight:600;color:var(--navy);background:#fff;border:1.5px solid #D5E2F4;border-radius:100px;padding:9px 14px;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;gap:7px;transition:all .18s;}
+.lf-chip:hover{border-color:var(--blue);background:var(--sky);}
+.lf-chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff;}
+.lf-chip[aria-pressed="true"]::before{content:'';width:12px;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center/contain no-repeat;}
+.lf-chip.sug{border-style:dashed;}
+.lf-count-line{display:flex;justify-content:space-between;margin-top:7px;font-size:12px;color:var(--muted);}
+.lf-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.lf-pill{position:relative;}
+.lf-pill input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer;}
+.lf-pill span{display:inline-flex;align-items:center;min-height:42px;padding:0 16px;font-size:13px;font-weight:700;color:var(--navy);background:#fff;border:1.5px solid #D5E2F4;border-radius:100px;transition:all .18s;}
+.lf-pill input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff;}
+.lf-pill input:focus-visible+span{outline:3px solid rgba(3,99,252,.45);outline-offset:2px;}
+.lf-consent{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--sky-2);border:1.5px solid #D5E2F4;border-radius:14px;cursor:pointer;}
+.lf-consent input{flex:none;width:20px;height:20px;margin-top:1px;accent-color:var(--blue);cursor:pointer;}
+.lf-consent span{font-size:12.5px;line-height:1.55;color:var(--navy);}
+.lf-consent a{color:var(--blue);font-weight:700;}
+.lf-consent.bad{border-color:#D92D20;background:#FFF5F4;}
+.lf-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+.lf-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 28px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:#fff;}
+.lf-foot-note{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.lf-foot-btns{display:flex;gap:10px;margin-left:auto;}
+.lf-btn{font:inherit;font-weight:800;font-size:14.5px;border-radius:100px;padding:0 24px;min-height:48px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1.5px solid transparent;transition:transform .2s,box-shadow .2s,background .2s;}
+.lf-btn.primary{color:#fff;background:linear-gradient(135deg,#0363FC,#0733B0);box-shadow:0 8px 20px rgba(3,99,252,.3);}
+.lf-btn.primary:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(3,99,252,.4);}
+.lf-btn.ghost{color:var(--navy);background:#fff;border-color:#D5E2F4;}
+.lf-btn.ghost:hover{background:var(--sky);}
+.lf-btn[disabled]{opacity:.65;pointer-events:none;}
+.lf-btn .spin{width:16px;height:16px;border-width:2.5px;border-color:rgba(255,255,255,.4);border-top-color:#fff;}
+.lf-banner{display:none;margin-bottom:12px;padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.5;font-weight:600;}
+.lf-banner.show{display:block;}
+.lf-banner.err{background:#FFF5F4;border:1px solid #F5C2BD;color:#B42318;}
+.lf-banner.dev{background:#FFF8E5;border:1px solid #F3DA9A;color:#7A5B00;}
+.lf-done{padding:34px 28px 30px;text-align:center;overflow-y:auto;}
+.lf-tick{width:76px;height:76px;margin:6px auto 18px;border-radius:50%;background:linear-gradient(135deg,#0363FC,#0733B0);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 34px rgba(3,99,252,.35);animation:sfpop .5s cubic-bezier(.2,.7,.2,1);}
+.lf-tick svg{width:38px;height:38px;}
+.lf-next{list-style:none;text-align:left;max-width:420px;margin:22px auto 24px;display:flex;flex-direction:column;gap:12px;}
+.lf-next li{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.5;color:var(--navy);font-weight:600;}
+.lf-next b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--sky);color:var(--blue);font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:800;}
+@media(max-width:700px){
+  .lf-overlay{padding:0;align-items:flex-end;}
+  .lf-panel{max-width:none;max-height:94dvh;height:94dvh;border-radius:22px 22px 0 0;transform:translateY(40px);}
+  .lf-top{padding:18px 18px 0;}.lf-body{padding:6px 18px 20px;}.lf-foot{padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));}
+  .lf-grid{grid-template-columns:1fr;}
+  .lf-input,.lf-select,.lf-textarea{font-size:16px;}
+  .lf-foot-note{display:none;}.lf-foot-btns{width:100%;}.lf-foot-btns .lf-btn{flex:1;padding:0 14px;}
+  #sfinder .res-cta{padding:20px;}#sfinder .cta-btn{width:100%;justify-content:center;}
+}
+@media(prefers-reduced-motion:reduce){.lf-overlay,.lf-panel,.lf-tick{transition:none;animation:none;}}
+
+
+/* ─────────── v2 additions ─────────── */
+#sfinder .res-sub{width:100%;font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--blue);margin:2px 0 -4px;}
+#sfinder .res-sub.muted{color:var(--muted);}
+#sfinder .res-cards+.res-sub{margin-top:6px;}
+#sfinder .rc-card.hot .rc-type{color:var(--blue-deep);}
+.lf-panel{max-width:620px;}
+.lf-h{margin-top:2px;}
+.lf-body{padding:20px 28px 22px;}
+.lf-label small{font-weight:600;}
+.lf-note-in{min-height:48px;}
+.lf-chips{min-height:0;}
+.lf-help{font-size:12px;color:var(--muted);margin-top:6px;}
+.lf-alt{display:none;margin-top:10px;font-size:13px;}
+.lf-alt.show{display:block;}
+.lf-alt a,.lf-alt button{font:inherit;font-weight:700;color:var(--blue);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;}
+.lf-ref{display:inline-block;margin-top:4px;font-size:12px;font-weight:800;letter-spacing:1px;color:var(--blue);background:var(--sky);border:1px solid var(--line);padding:5px 12px;border-radius:100px;}
+@media(max-width:700px){.lf-body{padding:16px 18px 18px;}}
+
+</style>
+</head>
+<body style="margin:0">
+
+<!--
+  PeopleOS finder v2.
+  WordPress: paste everything between the two PEOPLEOS markers into a Custom HTML block (or serve this file in an iframe).
+  Settings live in PEOPLEOS_CONFIG below. Nothing else needs editing.
+-->
+<!-- PEOPLEOS START -->
+<div id="peopleos-root">
+
+<section id="sfinder">
+  <div class="sf-in">
+    <div class="sf-eyebrow"><span class="pulse"></span>60-second match</div>
+    <h2 class="sf-h">Find your PeopleOS in one sentence.</h2>
+    <p class="sf-sub">Tell us what you're building in a sentence. We'll assemble the exact stack to power it, in an instant. No forms. No calls. No login.</p>
+    <div class="sentence" id="sf-sentence"></div>
+    <div class="sf-foot">
+      <div class="dots" id="sf-dots"></div>
+      <button class="reveal-btn" id="sf-revealBtn" type="button">Show my PeopleOS stack <span>&rarr;</span></button>
+      <button class="startover" id="sf-startover" type="button" style="display:none;">Start over</button>
+    </div>
+    <div class="sf-result" id="sf-result" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- Get in Touch: one short form -->
+<div class="lf-overlay" id="lf" aria-hidden="true">
+  <div class="lf-panel" role="dialog" aria-modal="true" aria-labelledby="lf-title">
+    <button type="button" class="lf-close" id="lf-close" aria-label="Close form">&times;</button>
+
+    <div id="lf-flow" style="display:flex;flex-direction:column;min-height:0;flex:1;">
+      <form id="lf-form" novalidate autocomplete="on" style="display:flex;flex-direction:column;min-height:0;flex:1;">
+        <div class="lf-body" id="lf-body">
+          <div class="lf-banner err" id="lf-banner-err" role="alert"></div>
+          <div class="lf-banner dev" id="lf-banner-dev"></div>
+
+          <h2 class="lf-h" id="lf-title" tabindex="-1">Where should we send your plan?</h2>
+          <p class="lf-sub" id="lf-sub">Three details and we'll come back with a plan built around your stack.</p>
+
+          <div class="lf-ctx" id="lf-ctx" hidden>
+            <div class="lf-ctx-l">What you told us</div>
+            <div class="lf-ctx-s" id="lf-ctx-s"></div>
+            <div class="lf-mini" id="lf-ctx-stack"></div>
+          </div>
+
+          <div class="lf-grid">
+            <div class="lf-field"><label class="lf-label" for="lf-name"><span>Full name<span class="lf-req" aria-hidden="true">*</span></span></label>
+              <input class="lf-input" id="lf-name" name="name" autocomplete="name" placeholder="Priya Sharma" required maxlength="80"><div class="lf-err" id="lf-err-name" role="alert"></div></div>
+            <div class="lf-field"><label class="lf-label" for="lf-email"><span>Work email<span class="lf-req" aria-hidden="true">*</span></span></label>
+              <input class="lf-input" id="lf-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="priya@company.com" required maxlength="120"><div class="lf-err" id="lf-err-email" role="alert"></div><div class="lf-hint" id="lf-hint-email" hidden>A work email helps us reach the right team. A personal one works too.</div></div>
+            <div class="lf-field"><label class="lf-label" for="lf-phone"><span>Phone<span class="lf-req" aria-hidden="true">*</span></span></label>
+              <input class="lf-input" id="lf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210" required maxlength="30"><div class="lf-err" id="lf-err-phone" role="alert"></div></div>
+            <div class="lf-field"><label class="lf-label" for="lf-company"><span>Company</span><small>Optional</small></label>
+              <input class="lf-input" id="lf-company" name="company" autocomplete="organization" placeholder="Your company name" maxlength="100"></div>
+          </div>
+
+          <div class="lf-field" id="lf-pains-wrap">
+            <div class="lf-label"><span>What's hurting most?</span><small>Optional, pick up to 3</small></div>
+            <div class="lf-chips" id="lf-chips" role="group" aria-label="What is hurting most"></div>
+          </div>
+
+          <div class="lf-field">
+            <label class="lf-label" for="lf-note"><span>Anything we should know?</span><small>Optional</small></label>
+            <input class="lf-input lf-note-in" id="lf-note" name="note" maxlength="300" placeholder="e.g. 6 cities, 40 hires a month">
+          </div>
+
+          <div class="lf-field">
+            <div class="lf-label" id="lf-urg-l"><span>How soon do you want to act?</span><small>Optional</small></div>
+            <div class="lf-pills" role="radiogroup" aria-labelledby="lf-urg-l" id="lf-urgency"></div>
+          </div>
+
+          <div class="lf-hp" aria-hidden="true"><label>Leave this empty<input id="lf-website" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <div class="lf-field" style="margin-bottom:4px;">
+            <label class="lf-consent" id="lf-consent-box"><input type="checkbox" id="lf-consent" name="consent" required>
+              <span><span id="lf-consent-text">I agree that CIEL HR may contact me about this enquiry and use my details and the answers above for that purpose.</span> <a id="lf-privacy" href="#" target="_blank" rel="noopener">Privacy policy</a></span></label>
+            <div class="lf-err" id="lf-err-consent" role="alert"></div>
+          </div>
+          <div class="lf-alt" id="lf-alt"></div>
+        </div>
+
+        <div class="lf-foot">
+          <div class="lf-foot-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Your details stay private</div>
+          <div class="lf-foot-btns">
+            <button type="submit" class="lf-btn primary" id="lf-submit">Send to our team <span aria-hidden="true">&rarr;</span></button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="lf-done" id="lf-done" hidden>
+      <div class="lf-tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+      <h2 class="lf-h" id="lf-done-h" tabindex="-1">Thank you</h2>
+      <p class="lf-sub" id="lf-done-sub" style="max-width:440px;margin:0 auto;"></p>
+      <div id="lf-done-ref"></div>
+      <ol class="lf-next">
+        <li><b>1</b><span>Our team reads your situation and prepares for the conversation.</span></li>
+        <li><b>2</b><span>We get in touch on the phone number or email you gave us.</span></li>
+        <li><b>3</b><span>We walk you through a PeopleOS plan built around your challenge.</span></li>
+      </ol>
+      <div class="lf-banner dev" id="lf-done-dev"></div>
+      <button type="button" class="lf-btn primary" id="lf-done-btn">Done</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   SETTINGS: the only part you edit.  (In WordPress you can instead define window.PEOPLEOS_CONFIG
+   in a small script block above this one; anything set there wins.)
+   ═══════════════════════════════════════════════════════════════════════ */
+var PEOPLEOS_DEFAULTS = {
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbzM1UuCbuRQ4_xgLZMHqTQ8XJ5qUckm_jHBGaURqHkyUWaKbop1AXJmF1XBCA74yEiRjQ/exec",            // Apps Script web app URL ending in /exec (or your Cloudflare Worker URL). Empty = demo mode.
+  GOOGLE_FORM: {           // Backup route if sending fails. Leave url empty to switch it off.
+    url: "",               // https://docs.google.com/forms/d/e/XXXX/viewform
+    entries: {             // entry ids from the pre-filled link: name -> "entry.123456789"
+      name: "", email: "", phone: "", company: "", urgency: "", pains: "", note: "",
+      org: "", goal: "", chal: "", journey: "", stack: "", rules: "", source: "", ref: "", consent: ""
+    }
+  },
+  COOKIEGATE_REST: "",     // e.g. "/wp-json/cookiegate/v1/formguard-consent" so consent is recorded in CookieGate's log
+  COOKIEGATE_FORM_ID: "peopleos-finder",
+  LOG_EVENTS: true,        // anonymous usage log (what was chosen / typed). No IP, no cookies, personal data redacted.
+  RULES_TTL_MIN: 360,      // how long a visitor's browser keeps the rules before asking again
+  FALLBACK_CONTACT: ""     // e.g. "hello@cielhr.com" shown if sending fails
+};
+var CONFIG = (function () { var c = {}, u = window.PEOPLEOS_CONFIG || {}; for (var k in PEOPLEOS_DEFAULTS) c[k] = (u[k] !== undefined) ? u[k] : PEOPLEOS_DEFAULTS[k]; return c; })();
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ENGINE (generated, identical to Engine.gs). Do not edit.
+   ═══════════════════════════════════════════════════════════════════════ */
+/* PeopleOS finder engine. ONE source file: it is inlined into index.html and copied to Engine.gs,
+   so the page, the nightly job and the regression tests always use identical matching logic.
+   Pure functions only: no DOM, no Apps Script services. */
+var PeopleOSEngine = (function () {
+  function uniq(a) { var s = {}, o = []; a.forEach(function (x) { if (!s[x]) { s[x] = 1; o.push(x); } }); return o; }
+  function lev(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    var prev = [], i, j; for (i = 0; i <= b.length; i++) prev.push(i);
+    for (i = 1; i <= a.length; i++) {
+      var cur = [i], min = i;
+      for (j = 1; j <= b.length; j++) {
+        var v = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        cur.push(v); if (v < min) min = v;
+      }
+      if (min > max) return max + 1; prev = cur;
+    }
+    return prev[b.length];
+  }
+  function tryRe(src, flags) { try { return new RegExp(src, flags || ''); } catch (e) { return null; } }
+
+  /* Compile a rules object (shape produced by Api.gs buildRules_) into a matcher. */
+  function create(R) {
+    var cfg = R.cfg || {}, msgs = R.msgs || {}, bad = [];
+    var entMin = +cfg.entMin || 1000, midMin = +cfg.midMin || 200, maxChars = +cfg.maxChars || 300, maxExtra = +cfg.maxExtra || 4;
+
+    function compileList(list, label) {
+      var good = [];
+      (list || []).forEach(function (r) {
+        var re = tryRe(r.p); if (!re) { bad.push(label + ':' + (r.id || r.p)); return; }
+        good.push({ id: r.id, p: r.p, re: re });
+      });
+      return good;
+    }
+    function joined(rules) { return rules.length ? new RegExp(rules.map(function (r) { return r.p; }).join('|'), 'g') : null; }
+
+    var kw = {}, kwAll = {};
+    Object.keys(R.kw || {}).forEach(function (card) { kwAll[card] = compileList(R.kw[card], card); kw[card] = joined(kwAll[card]); });
+    var orgkw = {};
+    Object.keys(R.orgkw || {}).forEach(function (g) { orgkw[g] = joined(compileList(R.orgkw[g], 'org-' + g)); });
+    var outRe = (function () { var l = compileList((R.out || []).map(function (p, i) { return { id: 'out' + i, p: p }; }), 'out'); return l.length ? new RegExp(l.map(function (r) { return r.p; }).join('|')) : null; })();
+    var injRe = (function () { var l = compileList((R.inject || []).map(function (p, i) { return { id: 'inj' + i, p: p }; }), 'inj'); return l.length ? new RegExp(l.map(function (r) { return r.p; }).join('|')) : null; })();
+    var vocab = R.vocab || [], stop = {}; (R.stop || []).forEach(function (w) { stop[w] = 1; });
+
+    /* clean the text: lower-case, drop negated needs, fix near-miss spellings */
+    function prep(text) {
+      var t = String(text).toLowerCase().replace(/\s+/g, ' ').trim();
+      t = t.replace(/(?:do not|don'?t|dont|doesn'?t|not|no longer|never)\s+(?:need|want|require|looking for|interested in|care about)\s+(?:an?\s+|the\s+)?[a-z&]+(?:\s(?:[a-z&]+)){0,1}/g, ' ')
+        .replace(/(?:already|currently)\s+(?:have|has|use|using|got)\s+(?:an?\s+|the\s+)?[a-z&]+/g, ' ')
+        .replace(/(?:without|except|excluding)\s+[a-z&]+/g, ' ')
+        .replace(/(?:our own|in.?house)\s+[a-z&]+(?:\s(?:team|department|function))?/g, ' ');
+      return t.replace(/[a-z]{5,}/g, function (w) {
+        if (vocab.indexOf(w) >= 0 || stop[w]) return w;
+        var max = w.length >= 8 ? 2 : 1;
+        for (var i = 0; i < vocab.length; i++) { var v = vocab[i]; if (v[0] === w[0] && lev(w, v, max) <= max) return v; }
+        return w;
+      });
+    }
+    function score(text) {
+      var out = {}, t = prep(text);
+      Object.keys(kw).forEach(function (id) {
+        if (!kw[id]) return; var m = t.match(kw[id]);
+        if (m) out[id] = uniq(m.map(function (x) { return x.trim(); }));
+      });
+      return out;
+    }
+    /* which individual rules fired (for the log and the per-keyword hit counts) */
+    function firedRules(text) {
+      var t = prep(text), o = {};
+      Object.keys(kwAll).forEach(function (id) {
+        var hit = []; kwAll[id].forEach(function (r) { if (new RegExp(r.p).test(t)) hit.push(r.id); });
+        if (hit.length) o[id] = hit;
+      });
+      return o;
+    }
+    function orgType(text) {
+      var t = String(text).toLowerCase();
+      var mult = function (u) { return !u ? 1 : /^k/.test(u) ? 1000 : /^(?:lakh|lac)/.test(u) ? 100000 : /^crore/.test(u) ? 10000000 : 1; };
+      var n = t.match(/(\d[\d,]*)\s*(k|lakhs?|lacs?|crores?)?\s*\+?\s*(?:employees?|staff|people|person|headcount|workers|workforce|members?|strong)/) || t.match(/team of (\d[\d,]*)()/);
+      if (n) { var v = parseInt(n[1].replace(/,/g, ''), 10) * mult(n[2]); return v >= entMin ? 0 : v >= midMin ? 1 : 2; }
+      var has = function (g) { return orgkw[g] ? new RegExp(orgkw[g].source).test(t) : false; };
+      if (has('startup')) return 2;
+      if (has('enterprise')) return 0;
+      if (has('mid')) return 1;
+      return -1;
+    }
+    function isNum(v) { return typeof v === 'number'; }
+    function journeyFor(i) { return (R.journeys && R.journeys[i]) || R.generic; }
+    function stageCards(j) { return uniq(j.stages.reduce(function (a, s) { return a.concat(s.cards); }, [])); }
+
+    /* state = {org, goal, chal}: each a preset index (number) or typed text (string) */
+    function interpret(S) {
+      var typed = function (k) { return typeof S[k] === 'string'; };
+      var clean = function (k) { return typed(k) ? S[k].slice(0, maxChars).trim() : ''; };
+      var txt = ['org', 'goal', 'chal'].map(clean).join(' ');
+      if (injRe && injRe.test(txt.toLowerCase())) return { generic: true, source: 'guard', note: msgs.guard || '' };
+      var idx = isNum(S.org) ? S.org : null, unclear = false;
+      if (idx === null) { idx = orgType(clean('org')); if (idx === -1) { idx = 1; unclear = true; } }
+      var typedGC = typed('goal') || typed('chal');
+      /* all three picked from the lists: exact lookup of the combination (no keyword logic at all) */
+      if (!typedGC && isNum(S.org) && isNum(S.goal) && isNum(S.chal) && R.combos && R.combos[S.org + '|' + S.goal + '|' + S.chal]) {
+        return { journey: journeyFor(idx), orgIdx: idx, show: R.combos[S.org + '|' + S.goal + '|' + S.chal].slice(), hot: [], reasons: {}, matched: {}, note: null, anyCustom: false, source: 'combo' };
+      }
+      var journey = journeyFor(idx), jIds = stageCards(journey), hi = [];
+      var adds = R.presetAdds || {};
+      if (isNum(S.goal) && adds.goal && adds.goal[S.goal]) adds.goal[S.goal].forEach(function (x) { hi.push(x); });
+      if (isNum(S.chal) && adds.chal && adds.chal[S.chal]) adds.chal[S.chal].forEach(function (x) { hi.push(x); });
+      var sc = score(clean('goal') + ' . ' + clean('chal'));
+      var excl = function (id) { var c = (R.cards || {})[id]; return c && c.excl && c.excl.indexOf(idx) >= 0; };
+      var ranked = Object.keys(sc).filter(function (id) { return !excl(id); })
+        .sort(function (a, b) { return sc[b].length - sc[a].length; }).slice(0, maxExtra);
+      var reasons = {}; ranked.forEach(function (id) { reasons[id] = sc[id].slice(0, 2); });
+      var out = outRe ? outRe.test(txt.toLowerCase()) : false;
+      if (typedGC && !ranked.length && !isNum(S.goal) && !isNum(S.chal) && unclear && !out) return { invalid: true, source: 'invalid' };
+      var note = null, source = typedGC ? 'keyword' : 'preset';
+      if (typedGC && !ranked.length && out) { note = msgs.outOfScope || null; source = 'outofscope'; }
+      else if (unclear) { note = msgs.unclearOrg || null; }
+      else if (typedGC && ranked.length) { note = msgs.builtFromTyped || null; }
+      if (typedGC && !ranked.length && source === 'keyword') source = 'nomatch';
+      var fired = (typedGC && ranked.length) ? firedRules(clean('goal') + ' . ' + clean('chal')) : {};
+      var matched = {}; ranked.forEach(function (id) { if (fired[id]) matched[id] = fired[id]; });
+      return { journey: journey, orgIdx: idx, unclear: unclear, show: uniq(jIds.concat(hi, ranked)), hot: ranked, reasons: reasons, matched: matched, note: note, anyCustom: ['org', 'goal', 'chal'].some(typed), source: source };
+    }
+    return { interpret: interpret, orgType: orgType, score: score, prep: prep, firedRules: firedRules, badRules: bad, stageCards: stageCards };
+  }
+  return { create: create, uniq: uniq, lev: lev };
+})();
+if (typeof module !== 'undefined' && module.exports) module.exports = PeopleOSEngine;
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RULES: a built-in copy (from the Brain sheet at build time) so the page always works; refreshed from
+   the Sheet in the background when CONFIG.ENDPOINT is set.
+   ═══════════════════════════════════════════════════════════════════════ */
+var RULES = {"cards":{"talent":{"id":"talent","name":"Talent Acquisition","brand":"CIEL HR","desc":"Value Staffing, Professional Staffing, RPO & Full-time Hiring and Executive Search.","excl":[]},"bgt":{"id":"bgt","name":"Business Growth and Transformation","brand":"CIEL HR","desc":"HR Advisory to build the right foundation early and scale with confidence.","excl":[]},"advisory":{"id":"advisory","name":"HR Advisory","brand":"CIEL HR","desc":"Business Growth and Transformation. Expert guidance on organisation design, talent strategy and HR operating models, to help you scale with confidence.","excl":[2]},"assess":{"id":"assess","name":"Assessment, Learning, Development & Engagement","brand":"Thomas · Jombay · People Metrics · CoursePlay","desc":"The complete talent package, in one place.","excl":[]},"payroll":{"id":"payroll","name":"Payroll & Compliance Outsourcing","brand":"CIEL HR","desc":"Managed payroll and statutory compliance, run by experts.","excl":[]},"ezycomp":{"id":"ezycomp","name":"Labour Compliance Solution","brand":"EzyComp","desc":"A comprehensive RegTech platform for all your labour compliance.","excl":[]},"bgv":{"id":"bgv","name":"Background Verification","brand":"Vibrant Screen","desc":"Identity, employment, education and criminal checks.","excl":[]},"hfactor":{"id":"hfactor","name":"HRMS","brand":"HfactoR","desc":"People data, onboarding, attendance and payroll in one place.","excl":[]}},"cardOrder":["talent","bgt","advisory","assess","payroll","ezycomp","bgv","hfactor"],"options":{"org":["an enterprise","a mid-sized organisation","a funded startup"],"goal":["hiring the right people","developing our talent","staying compliant","running HR without the chaos"],"chal":["too many disconnected tools","no in-house HR team","rising compliance risk","scaling faster than we can hire"]},"journeys":[{"name":"Enterprise journey","stages":[{"label":"Hire Talent","cards":["talent","advisory"]},{"label":"Assess, Learn, Develop & Engage Talent","cards":["assess"]},{"label":"Stay Compliant","cards":["ezycomp","payroll","bgv"]}]},{"name":"Mid to Large journey","stages":[{"label":"Hire & Verify Talent","cards":["talent","bgv"]},{"label":"Plan & Grow","cards":["advisory"]},{"label":"Develop Talent","cards":["assess"]},{"label":"Run & Comply","cards":["ezycomp","payroll","hfactor"]}]},{"name":"Funded Startup journey","stages":[{"label":"Hire Fast","cards":["talent"]},{"label":"Run Operations","cards":["hfactor"]},{"label":"Growth Consulting","cards":["bgt"]}]}],"generic":{"name":"Your PeopleOS journey","stages":[{"label":"Hire","cards":["talent","advisory"]},{"label":"Develop","cards":["assess"]},{"label":"Comply","cards":["ezycomp","payroll","bgv"]},{"label":"Operate","cards":["hfactor"]}]},"presetAdds":{"goal":[["talent"],["assess"],["ezycomp","payroll"],["hfactor"]],"chal":[["hfactor"],["talent","payroll"],["ezycomp","bgv"],["talent"]]},"combos":{"0|0|0":["talent","advisory","assess","ezycomp","payroll","bgv","hfactor"],"0|0|1":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|0|2":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|0|3":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|1|0":["talent","advisory","assess","ezycomp","payroll","bgv","hfactor"],"0|1|1":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|1|2":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|1|3":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|2|0":["talent","advisory","assess","ezycomp","payroll","bgv","hfactor"],"0|2|1":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|2|2":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|2|3":["talent","advisory","assess","ezycomp","payroll","bgv"],"0|3|0":["talent","advisory","assess","ezycomp","payroll","bgv","hfactor"],"0|3|1":["talent","advisory","assess","ezycomp","payroll","bgv","hfactor"],"0|3|2":["talent","advisory","assess","ezycomp","payroll","bgv","hfactor"],"0|3|3":["talent","advisory","assess","ezycomp","payroll","bgv","hfactor"],"1|0|0":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|0|1":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|0|2":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|0|3":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|1|0":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|1|1":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|1|2":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|1|3":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|2|0":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|2|1":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|2|2":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|2|3":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|3|0":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|3|1":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|3|2":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"1|3|3":["talent","bgv","advisory","assess","ezycomp","payroll","hfactor"],"2|0|0":["talent","hfactor","bgt"],"2|0|1":["talent","hfactor","bgt","payroll"],"2|0|2":["talent","hfactor","bgt","ezycomp","bgv"],"2|0|3":["talent","hfactor","bgt"],"2|1|0":["talent","hfactor","bgt","assess"],"2|1|1":["talent","hfactor","bgt","assess","payroll"],"2|1|2":["talent","hfactor","bgt","assess","ezycomp","bgv"],"2|1|3":["talent","hfactor","bgt","assess"],"2|2|0":["talent","hfactor","bgt","ezycomp","payroll"],"2|2|1":["talent","hfactor","bgt","ezycomp","payroll"],"2|2|2":["talent","hfactor","bgt","ezycomp","payroll","bgv"],"2|2|3":["talent","hfactor","bgt","ezycomp","payroll"],"2|3|0":["talent","hfactor","bgt"],"2|3|1":["talent","hfactor","bgt","payroll"],"2|3|2":["talent","hfactor","bgt","ezycomp","bgv"],"2|3|3":["talent","hfactor","bgt"]},"kw":{"talent":[{"id":"K0001","p":"hiring"},{"id":"K0002","p":"\\bhire\\b"},{"id":"K0003","p":"\\bhires\\b"},{"id":"K0004","p":"recruit"},{"id":"K0005","p":"staffing"},{"id":"K0006","p":"\\bstaff\\b"},{"id":"K0007","p":"short.?staffed"},{"id":"K0008","p":"understaffed"},{"id":"K0009","p":"vacanc"},{"id":"K0010","p":"openings?"},{"id":"K0011","p":"open positions?"},{"id":"K0012","p":"positions? (?:are )?(?:not|still)"},{"id":"K0013","p":"headhunt"},{"id":"K0014","p":"\\brpo\\b"},{"id":"K0015","p":"executive search"},{"id":"K0016","p":"manpower"},{"id":"K0017","p":"candidates?"},{"id":"K0018","p":"seasonal"},{"id":"K0019","p":"contract(?:ual)? (?:staff|worker)"},{"id":"K0020","p":"\\bcxos?\\b"},{"id":"K0021","p":"c-suite"},{"id":"K0022","p":"senior (?:leaders?|roles?|hires?)"},{"id":"K0023","p":"requisition"},{"id":"K0024","p":"sourcing"},{"id":"K0025","p":"lateral"},{"id":"K0026","p":"\\bjoiners?\\b"},{"id":"K0027","p":"bharti"},{"id":"K0028","p":"no ta\\b"},{"id":"K0029","p":"talent acquisition"},{"id":"K0030","p":"workforce supply"},{"id":"K0031","p":"temp(?:orary)? (?:staff|workers?)"},{"id":"K0032","p":"\\btemps?\\b"},{"id":"K0033","p":"(?:cannot|can'?t|unable to|struggling to|hard to) find"},{"id":"K0034","p":"skilled"},{"id":"K0035","p":"looking for (?:an? )?(?:head|manager|director|vp|lead|executive)"},{"id":"K0036","p":"\\bexecutives?\\b"},{"id":"K0037","p":"fresher"},{"id":"K0038","p":"\\binterns?\\b"},{"id":"K0039","p":"graduates?"},{"id":"K0040","p":"replac(?:e|ement)"},{"id":"K0041","p":"backfill"}],"advisory":[{"id":"K0042","p":"advis"},{"id":"K0043","p":"strateg"},{"id":"K0044","p":"restructur"},{"id":"K0045","p":"reorgani[sz]"},{"id":"K0046","p":"organi[sz]ation(?:al)? (?:design|structure)"},{"id":"K0047","p":"org design"},{"id":"K0048","p":"transformation"},{"id":"K0049","p":"merger"},{"id":"K0050","p":"acquisition"},{"id":"K0051","p":"\\bm&a\\b"},{"id":"K0052","p":"operating model"},{"id":"K0053","p":"hr function"},{"id":"K0054","p":"hr team"},{"id":"K0055","p":"hr polic"},{"id":"K0056","p":"polic(?:y|ies)"},{"id":"K0057","p":"\\bgrades?\\b"},{"id":"K0058","p":"grade structure"},{"id":"K0059","p":"compensation"},{"id":"K0060","p":"benchmark"},{"id":"K0061","p":"change management"},{"id":"K0062","p":"\\bexpan(?:d|sion)"},{"id":"K0063","p":"new (?:cities|city|market|business|unit|geograph)"},{"id":"K0064","p":"\\bipo\\b"},{"id":"K0065","p":"workforce planning"},{"id":"K0066","p":"right.?siz"},{"id":"K0067","p":"downsiz"},{"id":"K0068","p":"consult"},{"id":"K0069","p":"integration"},{"id":"K0070","p":"grading"},{"id":"K0071","p":"framework"},{"id":"K0072","p":"outside expert"},{"id":"K0073","p":"review our hr"},{"id":"K0074","p":"hr setup"},{"id":"K0075","p":"align hr"},{"id":"K0076","p":"business plan"},{"id":"K0077","p":"\\bmerg"},{"id":"K0078","p":"\\bacqui"}],"assess":[{"id":"K0079","p":"assess"},{"id":"K0080","p":"psychometric"},{"id":"K0081","p":"leadership"},{"id":"K0082","p":"\\btrain"},{"id":"K0083","p":"upskill"},{"id":"K0084","p":"reskill"},{"id":"K0085","p":"\\blearn"},{"id":"K0086","p":"course"},{"id":"K0087","p":"succession"},{"id":"K0088","p":"engag"},{"id":"K0089","p":"\\bculture"},{"id":"K0090","p":"morale"},{"id":"K0091","p":"attrition"},{"id":"K0092","p":"retention"},{"id":"K0093","p":"retain"},{"id":"K0094","p":"leaving"},{"id":"K0095","p":"\\bleave us"},{"id":"K0096","p":"resign"},{"id":"K0097","p":"\\bquit"},{"id":"K0098","p":"walking out"},{"id":"K0099","p":"walk out"},{"id":"K0100","p":"chhod"},{"id":"K0101","p":"burnout"},{"id":"K0102","p":"skill gaps?"},{"id":"K0103","p":"performance"},{"id":"K0104","p":"develop"},{"id":"K0105","p":"motivat"},{"id":"K0106","p":"churn"},{"id":"K0107","p":"coach"},{"id":"K0108","p":"mentor"},{"id":"K0109","p":"feedback"},{"id":"K0110","p":"appraisal"},{"id":"K0111","p":"\\b360\\b"},{"id":"K0112","p":"competenc"},{"id":"K0113","p":"capability"},{"id":"K0114","p":"induction"},{"id":"K0115","p":"\\blms\\b"},{"id":"K0116","p":"high.?potential"},{"id":"K0117","p":"\\bhipo"},{"id":"K0118","p":"talent review"},{"id":"K0119","p":"9.?box"},{"id":"K0120","p":"satisfaction"},{"id":"K0121","p":"\\bsurvey"},{"id":"K0122","p":"\\benps"},{"id":"K0123","p":"leadership pipeline"},{"id":"K0124","p":"next (?:gm|ceo|leader|head|md)"},{"id":"K0125","p":"who can become"},{"id":"K0126","p":"losing (?:good |our best |top )?(?:people|talent|employees)"},{"id":"K0127","p":"people (?:keep )?(?:leav|quit)"}],"payroll":[{"id":"K0128","p":"payroll"},{"id":"K0129","p":"salary"},{"id":"K0130","p":"salaries"},{"id":"K0131","p":"pay ?slips?"},{"id":"K0132","p":"\\bpf\\b"},{"id":"K0133","p":"\\besi\\b"},{"id":"K0134","p":"\\btds\\b"},{"id":"K0135","p":"form ?16"},{"id":"K0136","p":"gratuity"},{"id":"K0137","p":"\\bbonus"},{"id":"K0138","p":"full (?:and|&) final"},{"id":"K0139","p":"\\bf&f\\b"},{"id":"K0140","p":"settlement"},{"id":"K0141","p":"reimburs"},{"id":"K0142","p":"arrears?"},{"id":"K0143","p":"increments?"},{"id":"K0144","p":"payout"},{"id":"K0145","p":"deduction"},{"id":"K0146","p":"professional tax"},{"id":"K0147","p":"statutory (?:filing|payment)"},{"id":"K0148","p":"vetan"},{"id":"K0149","p":"tankhwa"}],"ezycomp":[{"id":"K0150","p":"complian"},{"id":"K0151","p":"complience"},{"id":"K0152","p":"labou?r (?:law|code|act|department|dept)"},{"id":"K0153","p":"\\baudit"},{"id":"K0154","p":"\\bnotice"},{"id":"K0155","p":"litigation"},{"id":"K0156","p":"inspection"},{"id":"K0157","p":"penalt"},{"id":"K0158","p":"regulat"},{"id":"K0159","p":"statutory"},{"id":"K0160","p":"factory act"},{"id":"K0161","p":"shops (?:and|&) establishment"},{"id":"K0162","p":"contract labou?r"},{"id":"K0163","p":"multi.?(?:state|location)"},{"id":"K0164","p":"many locations"},{"id":"K0165","p":"minimum wage"},{"id":"K0166","p":"licen[cs]e"},{"id":"K0167","p":"\\bposh\\b"},{"id":"K0168","p":"\\brisk"},{"id":"K0169","p":"registrations?"},{"id":"K0170","p":"legally"},{"id":"K0171","p":"reform"},{"id":"K0172","p":"returns? filing"},{"id":"K0173","p":"\\bfilings?\\b"}],"bgv":[{"id":"K0174","p":"background"},{"id":"K0175","p":"backround"},{"id":"K0176","p":"verif"},{"id":"K0177","p":"reference check"},{"id":"K0178","p":"\\bfake"},{"id":"K0179","p":"forged"},{"id":"K0180","p":"fraud"},{"id":"K0181","p":"criminal"},{"id":"K0182","p":"bad hires?"},{"id":"K0183","p":"screening"},{"id":"K0184","p":"(?:degree|certificate)s? (?:check|verif|fake)"},{"id":"K0185","p":"\\bli(?:e|es|ed|ar|ars)\\b"},{"id":"K0186","p":"lying"},{"id":"K0187","p":"mislead"},{"id":"K0188","p":"misrepresent"},{"id":"K0189","p":"false (?:information|claims?)"},{"id":"K0190","p":"credential"},{"id":"K0191","p":"previous employers?"},{"id":"K0192","p":"past employers?"},{"id":"K0193","p":"employment (?:history|check)"},{"id":"K0194","p":"experience letters?"},{"id":"K0195","p":"police verification"},{"id":"K0196","p":"certificates?"},{"id":"K0197","p":"education"},{"id":"K0198","p":"drug test"},{"id":"K0199","p":"address check"},{"id":"K0200","p":"previous jobs?"},{"id":"K0201","p":"hide"}],"hfactor":[{"id":"K0202","p":"hrms"},{"id":"K0203","p":"hr software"},{"id":"K0204","p":"hr system"},{"id":"K0205","p":"spreadsheets?"},{"id":"K0206","p":"\\bexcel\\b"},{"id":"K0207","p":"attendance"},{"id":"K0208","p":"\\bleave (?:management|tracking|policy)"},{"id":"K0209","p":"\\bleave\\b"},{"id":"K0210","p":"onboarding"},{"id":"K0211","p":"employee (?:records|data|portal|app)"},{"id":"K0212","p":"\\brecords?\\b"},{"id":"K0213","p":"data (?:is )?scattered"},{"id":"K0214","p":"self.?service"},{"id":"K0215","p":"\\bess\\b"},{"id":"K0216","p":"too many tools"},{"id":"K0217","p":"disconnected"},{"id":"K0218","p":"one (?:system|platform)"},{"id":"K0219","p":"single (?:source|platform)"},{"id":"K0220","p":"unified"},{"id":"K0221","p":"automate"},{"id":"K0222","p":"\\bmanual"},{"id":"K0223","p":"\\btools\\b"},{"id":"K0224","p":"no hr system"},{"id":"K0225","p":"(?:several|multiple|many|different|numerous|five|four|three|six|seven|ten) (?:different )?(?:software|tools|systems|apps)"},{"id":"K0226","p":"\\bfiles\\b"},{"id":"K0227","p":"employee information"},{"id":"K0228","p":"manage (?:employee )?leaves"},{"id":"K0229","p":"\\bleaves\\b"},{"id":"K0230","p":"(?:everything|all) in one place"},{"id":"K0231","p":"too many places"},{"id":"K0232","p":"many places"},{"id":"K0233","p":"in one place"}]},"orgkw":{"startup":[{"id":"O001","p":"startup"},{"id":"O002","p":"start-up"},{"id":"O003","p":"funded"},{"id":"O004","p":"\\bseed\\b"},{"id":"O005","p":"series ?[a-e]\\b"},{"id":"O006","p":"early.?stage"},{"id":"O007","p":"founder"},{"id":"O008","p":"bootstrap"},{"id":"O009","p":"small (?:team|company|business)"},{"id":"O010","p":"new (?:company|venture|business)"},{"id":"O011","p":"unicorn"},{"id":"O012","p":"(?:just|recently) (?:started|launched)"},{"id":"O013","p":"started (?:last|this) year"},{"id":"O014","p":"launched (?:last|this) year"},{"id":"O015","p":"incubat"},{"id":"O016","p":"angel"},{"id":"O017","p":"vc.?backed"},{"id":"O018","p":"pre.?series"}],"enterprise":[{"id":"O019","p":"enterprise"},{"id":"O020","p":"\\blarge(?:st)?\\b"},{"id":"O021","p":"\\bbig(?:gest)?\\b"},{"id":"O022","p":"\\bmnc\\b"},{"id":"O023","p":"multinational"},{"id":"O024","p":"corporation"},{"id":"O025","p":"conglomerate"},{"id":"O026","p":"\\bgroup\\b"},{"id":"O027","p":"\\blisted\\b"},{"id":"O028","p":"\\bbanks?\\b"},{"id":"O029","p":"\\bpsu\\b"},{"id":"O030","p":"public sector"},{"id":"O031","p":"pan.?india"},{"id":"O032","p":"\\bglobal\\b"},{"id":"O033","p":"multiple (?:states|locations|business)"},{"id":"O034","p":"fortune"},{"id":"O035","p":"nifty"},{"id":"O036","p":"sensex"},{"id":"O037","p":"\\bbse\\b"},{"id":"O038","p":"\\bnse\\b"}],"mid":[{"id":"O039","p":"\\bmid\\b"},{"id":"O040","p":"mid.?size"},{"id":"O041","p":"mid.?market"},{"id":"O042","p":"medium"},{"id":"O043","p":"\\bsme\\b"},{"id":"O044","p":"growing"},{"id":"O045","p":"family"},{"id":"O046","p":"scaling"},{"id":"O047","p":"regional"}]},"out":["\\bcrm\\b","accounting","\\berp\\b","marketing","\\bseo\\b","inventory","sales (?:are )?down","legal advice","website","web design","\\bweather\\b","\\bjoke\\b"],"inject":["ignore (?:all |the )?(?:previous|above|prior)","system prompt","your instructions","jailbreak","<\\s*script","drop table"],"vocab":["hiring","recruitment","recruiter","staffing","payroll","compliance","attrition","verification","background","assessment","training","engagement","leadership","advisory","spreadsheet","spreadsheets","attendance","onboarding","penalties","litigation","retention","performance","restructuring","transformation","consulting","succession","upskilling","salary","salaries","regulatory","inspection","burnout","automate","strategy"],"stop":["trailing","trained","trainer","trainee","hired","hires","staffed","staffing","hiring"],"msgs":{"builtFromTyped":"Built from what you told us. It all runs as **one connected system**, with AI across it. We'll fine-tune it with you.","presetNote":"Your PeopleOS stack, assembled. It all runs as **one connected system**, with AI across it. From hire to retire, one login.","customNote":"A starting blueprint. We'll fine-tune it with you. It all runs as **one connected system**, with AI across it.","unclearOrg":"We've shown the Mid to Large journey as a starting point. Tell us your team size when we speak and we'll fine-tune it.","outOfScope":"That sits outside PeopleOS, so here's the closest HR fit. We can talk it through with you.","guard":"We couldn't use that text, so here's a general blueprint. We'll fine-tune it with you.","invalidTitle":"Could you say that another way?","invalidBody":"We couldn't make sense of what you typed. Try something like \"a 500-person manufacturing company\", \"payroll errors every month\" or \"fake degrees on CVs\", or pick from the lists.","alsoInJourney":"Also in your journey","matchedHeading":"Matched to what you told us","ctaQ":"Want help turning this into a plan?","ctaS":"Tell us what you're facing and our team will come back with a plan built around it.","formTitle":"Where should we send your plan?","formSub":"Three details and we'll come back with a plan built around your stack.","consentText":"I agree that CIEL HR may contact me about this enquiry and use my details and the answers above for that purpose. I can withdraw this consent at any time.","thanksSub":"We've shared your stack and your answers with our team, so you won't need to explain it all again. We'll be in touch shortly.","submitError":"We couldn't send that just now. Your answers are still here, so please try again."},"painChips":[{"cards":["talent"],"text":"Roles take too long to fill","group":"Hiring & staffing"},{"cards":["talent"],"text":"Need bulk or seasonal hiring","group":"Hiring & staffing"},{"cards":["talent"],"text":"Hard to find senior talent","group":"Hiring & staffing"},{"cards":["talent"],"text":"Recruiters are overloaded","group":"Hiring & staffing"},{"cards":["talent"],"text":"No in-house hiring team","group":"Hiring & staffing"},{"cards":["talent"],"text":"Replacing people who keep leaving","group":"Hiring & staffing"},{"cards":["talent"],"text":"Candidates drop off before joining","group":"Hiring & staffing"},{"cards":["talent"],"text":"Hiring cost is too high","group":"Hiring & staffing"},{"cards":["assess"],"text":"People are leaving too fast","group":"Retention & growth"},{"cards":["assess"],"text":"Low engagement or morale","group":"Retention & growth"},{"cards":["assess"],"text":"Managers need coaching","group":"Retention & growth"},{"cards":["assess"],"text":"No leadership pipeline","group":"Retention & growth"},{"cards":["assess"],"text":"Skill gaps in the team","group":"Retention & growth"},{"cards":["assess"],"text":"Performance reviews are messy","group":"Retention & growth"},{"cards":["assess"],"text":"Need psychometric assessments","group":"Retention & growth"},{"cards":["assess"],"text":"Training is not sticking","group":"Retention & growth"},{"cards":["payroll","ezycomp"],"text":"Payroll errors or delays","group":"Payroll & compliance"},{"cards":["payroll","ezycomp"],"text":"PF, ESI or TDS filings","group":"Payroll & compliance"},{"cards":["payroll","ezycomp"],"text":"Labour code changes","group":"Payroll & compliance"},{"cards":["payroll","ezycomp"],"text":"Notices or inspections","group":"Payroll & compliance"},{"cards":["payroll","ezycomp"],"text":"Compliance across many locations","group":"Payroll & compliance"},{"cards":["payroll","ezycomp"],"text":"Audit coming up","group":"Payroll & compliance"},{"cards":["payroll","ezycomp"],"text":"Contract labour compliance","group":"Payroll & compliance"},{"cards":["payroll","ezycomp"],"text":"Penalty risk","group":"Payroll & compliance"},{"cards":["bgv"],"text":"Fake documents or degrees","group":"Verification & risk"},{"cards":["bgv"],"text":"Background checks are slow","group":"Verification & risk"},{"cards":["bgv"],"text":"Bad hires","group":"Verification & risk"},{"cards":["bgv"],"text":"Address or police verification","group":"Verification & risk"},{"cards":["bgv"],"text":"Gaps in employment history","group":"Verification & risk"},{"cards":["hfactor"],"text":"Too many disconnected tools","group":"HR operations & tools"},{"cards":["hfactor"],"text":"Everything is in Excel","group":"HR operations & tools"},{"cards":["hfactor"],"text":"Attendance and leave tracking","group":"HR operations & tools"},{"cards":["hfactor"],"text":"Messy onboarding paperwork","group":"HR operations & tools"},{"cards":["hfactor"],"text":"Employee data is scattered","group":"HR operations & tools"},{"cards":["hfactor"],"text":"No HRMS yet","group":"HR operations & tools"},{"cards":["hfactor"],"text":"Manual HR reports","group":"HR operations & tools"},{"cards":["advisory","bgt"],"text":"Scaling faster than HR can handle","group":"Growth & change"},{"cards":["advisory","bgt"],"text":"Restructuring or a merger","group":"Growth & change"},{"cards":["advisory","bgt"],"text":"Building an HR function","group":"Growth & change"},{"cards":["advisory","bgt"],"text":"Expanding to new states or cities","group":"Growth & change"},{"cards":["advisory","bgt"],"text":"Need an HR strategy","group":"Growth & change"},{"cards":["advisory","bgt"],"text":"Compensation and grading","group":"Growth & change"}],"cfg":{"entMin":1000,"midMin":200,"maxChars":300,"maxExtra":4,"privacyUrl":"","consentVersion":"v1"},"v":"cb40c8456c"};
+var ENG = PeopleOSEngine.create(RULES);
+var sf$ = function (id) { return document.getElementById(id); };
+var sfNum = function (v) { return typeof v === "number"; };
+var sfUniq = PeopleOSEngine.uniq;
+function sfEsc(x) { return String(x === null || x === undefined ? "" : x).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+/* sheet-written messages: escaped, with **bold** allowed */
+function fmt(t) { return sfEsc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>"); }
+function ls(op, k, v) { try { if (op === "get") return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+var SF_BLANKS = [
+  { key: "org", ph: "your organisation" },
+  { key: "goal", ph: "your main goal" },
+  { key: "chal", ph: "your challenge" }
+];
+function optsOf(key) { return (RULES.options && RULES.options[key]) || []; }
+var SF_STATE = { org: null, goal: null, chal: null };
+var sfOpenKey = null, sfCustomKey = null;
+var SF_STAGE = ["#3E9BE0", "#0363FC", "#0733B0", "#0A1E5C"];
+var SF_CARET = '<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+
+/* background refresh of the rules from the Sheet */
+(function refreshRules() {
+  if (!CONFIG.ENDPOINT) return;
+  var cached; try { cached = JSON.parse(ls("get", "peopleos_rules") || "null"); } catch (e) { cached = null; }
+  var ttl = (+CONFIG.RULES_TTL_MIN || 360) * 60000;
+  if (cached && cached.R && cached.R.v) { applyRules(cached.R); if (Date.now() - cached.t < ttl) return; }
+  setTimeout(function () {
+    var v = cached && cached.R ? cached.R.v : (RULES.v || "");
+    fetch(CONFIG.ENDPOINT + (CONFIG.ENDPOINT.indexOf("?") < 0 ? "?" : "&") + "action=rules&v=" + encodeURIComponent(v)).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.unchanged) { if (cached) ls("set", "peopleos_rules", JSON.stringify({ t: Date.now(), R: cached.R })); return; }
+      if (d && d.cards && d.kw && d.journeys && d.v) { applyRules(d); ls("set", "peopleos_rules", JSON.stringify({ t: Date.now(), R: d })); }
+    }).catch(function () { /* silent: the built-in rules keep working */ });
+  }, 1500);
+})();
+function applyRules(R) {
+  if (!R || !R.cards || !R.options || !R.journeys) return;
+  try { var e = PeopleOSEngine.create(R); RULES = R; ENG = e; if (!sfOpenKey && !sfCustomKey) { sfRenderSentence(); } } catch (err) { console.warn("[PeopleOS] rules ignored", err); }
+}
+
+/* ─────────────── fill-in-the-blanks sentence ─────────────── */
+function sfBlankHTML(key) {
+  var b = SF_BLANKS.find(function (x) { return x.key === key; }), v = SF_STATE[key], opts = optsOf(key);
+  if (sfCustomKey === key) return '<span class="blank open"><input class="blank-input" id="sf-inp-' + key + '" placeholder="type it..." maxlength="200" value="' + (typeof v === "string" ? sfEsc(v) : "") + '" onkeydown="sfOnCustomKey(event,\'' + key + '\')" onblur="sfSetCustom(\'' + key + '\',this.value)" onclick="event.stopPropagation()"></span>';
+  var filled = v !== null && v !== "";
+  var label = filled ? (sfNum(v) ? (opts[v] || "") : v) : b.ph;
+  return '<span class="blank ' + (filled ? "filled" : "") + " " + (sfOpenKey === key ? "open" : "") + '">' +
+    '<button class="blank-btn" type="button" onclick="sfToggleMenu(\'' + key + '\',event)">' + sfEsc(label) + SF_CARET + '</button>' +
+    '<div class="menu">' + opts.map(function (o, i) { return '<button type="button" class="menu-opt ' + (v === i ? "sel" : "") + '" onclick="sfPick(\'' + key + '\',' + i + ',event)">' + sfEsc(o) + '</button>'; }).join("") +
+    '<button type="button" class="menu-opt custom" onclick="sfStartCustom(\'' + key + '\',event)">Type your own...</button></div></span>';
+}
+function sfRenderSentence() { sf$("sf-sentence").innerHTML = "We're " + sfBlankHTML("org") + ", focused on " + sfBlankHTML("goal") + ", and " + sfBlankHTML("chal") + " is what we're taking on."; }
+function sfUpdateFoot() {
+  var f = ["org", "goal", "chal"].filter(function (k) { return SF_STATE[k] !== null && SF_STATE[k] !== ""; }).length;
+  sf$("sf-dots").innerHTML = [0, 1, 2].map(function (i) { return '<span class="dot ' + (i < f ? "on" : "") + '"></span>'; }).join("");
+  sf$("sf-revealBtn").classList.toggle("ready", f === 3);
+  sf$("sf-startover").style.display = f > 0 ? "inline" : "none";
+}
+function sfToggleMenu(k, e) { e.stopPropagation(); sfCustomKey = null; sfOpenKey = sfOpenKey === k ? null : k; sfRenderSentence(); }
+function sfPick(k, i, e) { e.stopPropagation(); SF_STATE[k] = i; sfOpenKey = null; sfRenderSentence(); sfUpdateFoot(); }
+function sfStartCustom(k, e) { e.stopPropagation(); sfOpenKey = null; sfCustomKey = k; sfRenderSentence(); setTimeout(function () { var el = sf$("sf-inp-" + k); if (el) el.focus(); }, 0); }
+function sfOnCustomKey(e, k) { if (e.key === "Enter") { e.preventDefault(); sfSetCustom(k, e.target.value); } else if (e.key === "Escape") { sfCustomKey = null; sfRenderSentence(); } }
+function sfSetCustom(k, val) { val = (val || "").trim(); sfCustomKey = null; if (val) SF_STATE[k] = val; sfRenderSentence(); sfUpdateFoot(); }
+document.addEventListener("click", function () { if (sfOpenKey) { sfOpenKey = null; sfRenderSentence(); } });
+function sfLabel(k) { var v = SF_STATE[k]; return v === null || v === "" ? "" : sfNum(v) ? (optsOf(k)[v] || "") : String(v); }
+
+/* ─────────────── anonymous usage log ─────────────── */
+var SID = (function () { var s = null; try { s = sessionStorage.getItem("peopleos_sid"); } catch (e) { } if (!s) { s = Math.random().toString(36).slice(2, 12); try { sessionStorage.setItem("peopleos_sid", s); } catch (e) { } } return s; })();
+var EVQ = [], evTimer = null;
+function utmParams() { var u = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_/.test(k)) u[k] = v.slice(0, 100); }); } catch (e) { } return u; }
+function flatRules(m) { var o = []; if (m) Object.keys(m).forEach(function (k) { (m[k] || []).forEach(function (x) { o.push(x); }); }); return o; }
+function logRun(r) {
+  if (!CONFIG.LOG_EVENTS || !CONFIG.ENDPOINT) return;
+  EVQ.push({
+    sid: SID, src: r.invalid ? "invalid" : r.source, org: sfLabel("org"), orgT: typeof SF_STATE.org === "string", goal: sfLabel("goal"), goalT: typeof SF_STATE.goal === "string", chal: sfLabel("chal"), chalT: typeof SF_STATE.chal === "string",
+    cards: r.show || [], rules: flatRules(r.matched), journey: r.journey ? r.journey.name : "", dev: window.innerWidth < 700 ? "m" : "d", page: location.href.split("#")[0], utm: utmParams().utm_source || ""
+  });
+  clearTimeout(evTimer); evTimer = setTimeout(flushEvents, 1500);
+}
+function postFireAndForget(body) {
+  var s = JSON.stringify(body);
+  try { if (navigator.sendBeacon && navigator.sendBeacon(CONFIG.ENDPOINT, new Blob([s], { type: "text/plain" }))) return; } catch (e) { }
+  try { fetch(CONFIG.ENDPOINT, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain" }, body: s }); } catch (e) { }
+}
+function flushEvents() { if (!EVQ.length) return; var batch = EVQ.splice(0, 10); postFireAndForget({ type: "events", events: batch }); }
+document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") flushEvents(); });
+window.addEventListener("pagehide", flushEvents);
+
+/* ─────────────── result ─────────────── */
+var SF_LIVE = null, SF_BUSY = false;
+function cardName(id) { return RULES.cards[id] ? RULES.cards[id].name : id; }
+function sfPublicResult() {
+  if (!SF_LIVE) return null;
+  return { source: SF_LIVE.source, journey: SF_LIVE.journey.name, stages: SF_LIVE.journey.stages.map(function (s) { return s.label; }), cards: SF_LIVE.show.map(function (id) { return { id: id, name: cardName(id) }; }), matched: SF_LIVE.hot || [], note: SF_LIVE.note || null };
+}
+function cardHTML(id, i, hot, why) {
+  var p = RULES.cards[id]; if (!p) return "";
+  var w = why && why.length ? '<div class="rc-why">Matched: ' + why.map(sfEsc).join(", ") + '</div>' : "";
+  return '<div class="rc-card' + (hot ? " hot" : "") + '" style="animation-delay:' + (i * 55) + 'ms"><div class="rc-type">' + sfEsc(p.name) + '</div><div class="rc-desc">' + sfEsc(p.desc) + '</div>' + w + '<span class="rc-brand">' + sfEsc(p.brand) + '</span></div>';
+}
+function sfDraw() {
+  var L = SF_LIVE, journey = L.journey, M = RULES.msgs || {};
+  var tl = journey.stages.map(function (s, i) { return '<div class="tl-n"><div class="tl-c" style="background:' + SF_STAGE[i % 4] + '"></div><div class="tl-l">' + sfEsc(s.label) + '</div></div>'; }).join("")
+    + '<div class="tl-n"><div class="tl-c os">★</div><div class="tl-l">One System</div></div>';
+  var cards = "";
+  if (L.hot && L.hot.length) {
+    var rest = L.show.filter(function (id) { return L.hot.indexOf(id) < 0; });
+    cards = '<div class="res-sub">' + sfEsc(M.matchedHeading || "Matched to what you told us") + '</div>' + L.hot.map(function (id, i) { return cardHTML(id, i, true, L.reasons && L.reasons[id]); }).join("")
+      + (rest.length ? '<div class="res-sub muted">' + sfEsc(M.alsoInJourney || "Also in your journey") + '</div>' + rest.map(function (id, i) { return cardHTML(id, i + L.hot.length, false); }).join("") : "");
+  } else cards = L.show.map(function (id, i) { return cardHTML(id, i, false); }).join("");
+  var note = L.note || (L.anyCustom ? M.customNote : M.presetNote) || "";
+  sf$("sf-result").innerHTML = '<div class="res-card"><div class="res-eyebrow">Your PeopleOS · ' + sfEsc(journey.name) + '</div><div class="res-h">Here\'s your journey and stack.</div><div class="res-tl">' + tl + '</div><div class="res-cards">' + cards + '</div><div class="res-note">' + fmt(note) + '</div>' +
+    '<div class="res-cta"><div><div class="res-cta-q">' + sfEsc(M.ctaQ || "Want help turning this into a plan?") + '</div><div class="res-cta-s">' + sfEsc(M.ctaS || "") + '</div></div><button type="button" class="cta-btn" onclick="openLeadForm()">Get in Touch with our team <span aria-hidden="true">&rarr;</span></button></div></div>';
+  sf$("sf-result").classList.add("show");
+  try { sf$("sf-result").scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) { }
+}
+function sfShowMessage(html) { sf$("sf-result").innerHTML = '<div class="res-card">' + html + '</div>'; sf$("sf-result").classList.add("show"); }
+sf$("sf-revealBtn").addEventListener("click", function () {
+  if (["org", "goal", "chal"].some(function (k) { return SF_STATE[k] === null || SF_STATE[k] === ""; })) return;
+  if (SF_BUSY) return; SF_BUSY = true;
+  try {
+    var r = ENG.interpret(SF_STATE), M = RULES.msgs || {};
+    logRun(r);
+    if (r.invalid) {
+      SF_LIVE = null;
+      sfShowMessage('<div class="res-h">' + sfEsc(M.invalidTitle || "Could you say that another way?") + '</div><div class="res-note">' + fmt(M.invalidBody || "") + '</div><div class="res-soft">Prefer to talk it through? <button type="button" onclick="openLeadForm()">Get in Touch with our team</button></div>');
+      return;
+    }
+    if (r.generic) { var g = RULES.generic; SF_LIVE = { journey: g, show: sfUniq(g.stages.reduce(function (a, s) { return a.concat(s.cards); }, [])), hot: [], anyCustom: true, note: r.note, source: r.source, matched: {} }; }
+    else SF_LIVE = r;
+    sfDraw();
+    document.dispatchEvent(new CustomEvent("peopleos:result", { detail: sfPublicResult() }));
+  } finally { SF_BUSY = false; }
+});
+sf$("sf-startover").addEventListener("click", function () { SF_LIVE = null; SF_STATE.org = SF_STATE.goal = SF_STATE.chal = null; sfOpenKey = sfCustomKey = null; sf$("sf-result").classList.remove("show"); sf$("sf-result").innerHTML = ""; sfRenderSentence(); sfUpdateFoot(); });
+sfRenderSentence(); sfUpdateFoot();
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GET IN TOUCH: one short form
+   ═══════════════════════════════════════════════════════════════════════ */
+var LF_URGENCY = ["Just exploring", "Within 3 months", "Urgent, this month"];
+var LF_FREE = /@(gmail|yahoo|hotmail|outlook|rediffmail|proton|icloud|live|aol)\./i;
+var lf$ = sf$;
+var LF = { pains: [], urgency: "", submitting: false, touched: {}, cref: "" };
+var lfOpener = null;
+
+function lfChips() {
+  /* chips linked to the matched cards first, then the rest of the stack: at most 6, at most 2 per card */
+  var L = SF_LIVE, order = L ? sfUniq((L.hot || []).concat(L.show || [])) : [], out = [], seen = {};
+  order.forEach(function (id) {
+    var n = 0;
+    (RULES.painChips || []).forEach(function (c) { if (out.length >= 6 || n >= 2 || c.cards.indexOf(id) < 0 || seen[c.text]) return; seen[c.text] = 1; out.push(c.text); n++; });
+  });
+  return out;
+}
+function lfRenderChips() {
+  var items = lfChips(); lf$("lf-pains-wrap").hidden = !items.length;
+  lf$("lf-chips").innerHTML = items.map(function (x) { return '<button type="button" class="lf-chip" aria-pressed="' + (LF.pains.indexOf(x) >= 0) + '" data-v="' + sfEsc(x) + '">' + sfEsc(x) + '</button>'; }).join("");
+  Array.prototype.forEach.call(lf$("lf-chips").querySelectorAll(".lf-chip"), function (b) {
+    b.addEventListener("click", function () {
+      var v = b.getAttribute("data-v"), i = LF.pains.indexOf(v);
+      if (i >= 0) LF.pains.splice(i, 1); else if (LF.pains.length < 3) LF.pains.push(v); else return;
+      lfRenderChips();
+    });
+  });
+}
+function lfRenderUrgency() {
+  lf$("lf-urgency").innerHTML = LF_URGENCY.map(function (o) { return '<label class="lf-pill"><input type="radio" name="urgency" value="' + sfEsc(o) + '" ' + (LF.urgency === o ? "checked" : "") + '><span>' + sfEsc(o) + '</span></label>'; }).join("");
+  Array.prototype.forEach.call(lf$("lf-urgency").querySelectorAll("input"), function (inp) {
+    inp.addEventListener("click", function () { if (LF.urgency === inp.value) { LF.urgency = ""; inp.checked = false; } else LF.urgency = inp.value; });
+  });
+}
+function lfRenderContext() {
+  var has = ["org", "goal", "chal"].every(function (k) { return SF_STATE[k] !== null && SF_STATE[k] !== ""; });
+  lf$("lf-ctx").hidden = !has; if (!has) return;
+  lf$("lf-ctx-s").innerHTML = "We're <em>" + sfEsc(sfLabel("org")) + "</em>, focused on <em>" + sfEsc(sfLabel("goal")) + "</em>, and <em>" + sfEsc(sfLabel("chal")) + "</em> is what we're taking on.";
+  lf$("lf-ctx-stack").innerHTML = SF_LIVE ? SF_LIVE.show.map(function (id) { return "<span>" + sfEsc(cardName(id)) + "</span>"; }).join("") : "";
+}
+/* validation */
+var LF_RULES = {
+  name: function (v) { return v.trim().length >= 2 || "Please enter your full name."; },
+  email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || "Please enter a valid email address."; },
+  phone: function (v) { var d = v.replace(/\D/g, ""); return (d.length >= 8 && d.length <= 15) || "Please enter a valid phone number. Add the country code if it's outside India."; }
+};
+function lfSetErr(key, msg) {
+  var e = lf$("lf-err-" + key), inp = lf$("lf-" + key);
+  if (e) { e.textContent = msg || ""; e.classList.toggle("show", !!msg); }
+  if (inp && inp.setAttribute) { if (msg) { inp.setAttribute("aria-invalid", "true"); inp.setAttribute("aria-describedby", "lf-err-" + key); } else inp.removeAttribute("aria-invalid"); }
+}
+function lfCheckField(key) { var r = LF_RULES[key](lf$("lf-" + key).value); lfSetErr(key, r === true ? "" : r); return r === true; }
+function lfValidate() {
+  var first = null;
+  ["name", "email", "phone"].forEach(function (k) { if (!lfCheckField(k) && !first) first = lf$("lf-" + k); });
+  var c = lf$("lf-consent").checked; lf$("lf-consent-box").classList.toggle("bad", !c);
+  var ce = lf$("lf-err-consent"); ce.textContent = c ? "" : "Please tick this box so we can get in touch."; ce.classList.toggle("show", !c);
+  if (!c && !first) first = lf$("lf-consent");
+  if (first) first.focus();
+  return !first;
+}
+function lfBanner(id, msg) { var b = lf$(id); b.textContent = msg || ""; b.classList.toggle("show", !!msg); }
+function lfFocusable() { return [].slice.call(lf$("lf").querySelectorAll('button,input,select,textarea,a[href],[tabindex]:not([tabindex="-1"])')).filter(function (el) { return !el.disabled && el.offsetParent !== null && el.type !== "hidden" && !el.closest(".lf-hp"); }); }
+
+function openLeadForm() {
+  var M = RULES.msgs || {}, cfg = RULES.cfg || {};
+  lfOpener = document.activeElement; LF.cref = "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  lf$("lf-title").textContent = M.formTitle || "Where should we send your plan?"; lf$("lf-sub").textContent = M.formSub || "";
+  lf$("lf-consent-text").textContent = M.consentText || lf$("lf-consent-text").textContent;
+  lfRenderContext(); lfRenderChips(); lfRenderUrgency();
+  lf$("lf-privacy").href = cfg.privacyUrl || "#"; lf$("lf-privacy").style.display = cfg.privacyUrl ? "" : "none";
+  lf$("lf-flow").hidden = false; lf$("lf-done").hidden = true; lfBanner("lf-banner-err", ""); lf$("lf-alt").classList.remove("show");
+  lfBanner("lf-banner-dev", CONFIG.ENDPOINT ? "" : "Developer note: no ENDPOINT is set, so nothing will be sent. The payload is logged to the browser console.");
+  lf$("lf-body").scrollTop = 0;
+  lf$("lf").classList.add("open"); lf$("lf").setAttribute("aria-hidden", "false"); document.documentElement.classList.add("lf-lock");
+  setTimeout(function () { lf$("lf-name").focus({ preventScroll: true }); }, 60);
+}
+function closeLeadForm() {
+  lf$("lf").classList.remove("open"); lf$("lf").setAttribute("aria-hidden", "true"); document.documentElement.classList.remove("lf-lock");
+  if (lfOpener && lfOpener.focus) lfOpener.focus();
+}
+function guessCompany(email) {
+  var m = String(email).toLowerCase().match(/@([^.@]+)\.[^@]+$/); if (!m || LF_FREE.test(email)) return "";
+  return m[1].replace(/[-_]+/g, " ").replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+}
+function buildLeadPayload() {
+  var g = function (id) { return lf$(id).value.trim(); }, L = SF_LIVE;
+  return {
+    type: "lead", cref: LF.cref, website: lf$("lf-website").value,
+    name: g("lf-name"), email: g("lf-email"), phone: g("lf-phone"), company: g("lf-company"), urgency: LF.urgency, pains: LF.pains.slice(), note: g("lf-note"),
+    org: sfLabel("org"), goal: sfLabel("goal"), chal: sfLabel("chal"), journey: L ? L.journey.name : "", stack: L ? L.show.map(cardName) : [], rules: flatRules(L && L.matched),
+    page: location.href.split("#")[0], utm: utmParams(), consent: lf$("lf-consent").checked, cver: (RULES.cfg && RULES.cfg.consentVersion) || "v1"
+  };
+}
+function googleFormUrl(p, ref) {
+  var G = CONFIG.GOOGLE_FORM || {}, E = G.entries || {}; if (!G.url) return "";
+  var val = { name: p.name, email: p.email, phone: p.phone, company: p.company, urgency: p.urgency, pains: p.pains.join(" | "), note: p.note, org: p.org, goal: p.goal, chal: p.chal, journey: p.journey, stack: p.stack.join(" ; "), rules: p.rules.join(", "), source: (p.utm.utm_source || "") + (p.utm.utm_medium ? " / " + p.utm.utm_medium : "") + (p.utm.utm_campaign ? " / " + p.utm.utm_campaign : ""), ref: ref || LF.cref, consent: p.consent ? "Yes" : "" };
+  var q = ["usp=pp_url"]; Object.keys(E).forEach(function (k) { if (E[k] && val[k]) q.push(encodeURIComponent(E[k]) + "=" + encodeURIComponent(String(val[k]).slice(0, 500))); });
+  return G.url + (G.url.indexOf("?") < 0 ? "?" : "&") + q.join("&");
+}
+function lfShowFallback(p) {
+  var box = lf$("lf-alt"), parts = [], url = googleFormUrl(p);
+  if (url) parts.push('<a href="' + sfEsc(url) + '" target="_blank" rel="noopener">Send it with our backup form instead</a>');
+  if (CONFIG.FALLBACK_CONTACT) parts.push("or write to " + sfEsc(CONFIG.FALLBACK_CONTACT));
+  box.innerHTML = parts.join(" ") ; box.classList.toggle("show", !!parts.length);
+}
+function recordConsent() {
+  if (!CONFIG.COOKIEGATE_REST) return;
+  try { fetch(CONFIG.COOKIEGATE_REST, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", body: JSON.stringify({ plugin: "peopleos", formId: CONFIG.COOKIEGATE_FORM_ID, language: "en", isMinor: false, hp: "" }) }); } catch (e) { }
+}
+async function lfSubmit() {
+  if (LF.submitting) return;
+  if (!lfValidate()) return;
+  if (lf$("lf-website").value) { lfShowDone("PO-OK"); return; }                      /* honeypot: look successful, send nothing */
+  LF.submitting = true; lfBanner("lf-banner-err", ""); lf$("lf-alt").classList.remove("show");
+  var btn = lf$("lf-submit"); btn.disabled = true; var label = btn.innerHTML; btn.innerHTML = '<span class="spin"></span> Sending...';
+  var p = buildLeadPayload();
+  try {
+    var ref = "PO-DEMO";
+    if (CONFIG.ENDPOINT) {
+      var ctl = new AbortController(), t = setTimeout(function () { ctl.abort(); }, 20000), res, data;
+      try {
+        res = await fetch(CONFIG.ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(p), signal: ctl.signal, redirect: "follow" });
+        data = await res.json();
+      } finally { clearTimeout(t); }
+      if (!data || !data.ok) { var err = new Error((data && data.error) || "send failed"); err.code = data && data.error; throw err; }
+      ref = data.ref || "";
+    } else console.info("[PeopleOS finder] DEMO MODE, no ENDPOINT configured. Lead payload:", p);
+    recordConsent();
+    document.dispatchEvent(new CustomEvent("peopleos:lead-submitted", { detail: { ref: ref, journey: p.journey, stack: p.stack } }));
+    lfShowDone(ref, p.name);
+  } catch (e) {
+    console.error("[PeopleOS finder] lead submit failed", e);
+    var M = RULES.msgs || {}, f = { name: "name", email: "email", phone: "phone", consent: "consent" };
+    if (e.code && f[e.code]) { lfBanner("lf-banner-err", "Please check your " + f[e.code] + " and try again."); }
+    else { lfBanner("lf-banner-err", (M.submitError || "We couldn't send that just now. Your answers are still here, so please try again.")); lfShowFallback(p); }
+    lf$("lf-body").scrollTop = 0;
+  } finally { LF.submitting = false; btn.disabled = false; btn.innerHTML = label; }
+}
+function lfShowDone(ref, name) {
+  var M = RULES.msgs || {};
+  lf$("lf-flow").hidden = true; lf$("lf-done").hidden = false;
+  lf$("lf-done-h").textContent = name ? "Thank you, " + name.split(" ")[0] : "Thank you";
+  lf$("lf-done-sub").textContent = M.thanksSub || "";
+  lf$("lf-done-ref").innerHTML = ref && ref !== "PO-OK" && ref !== "PO-DEMO" ? '<span class="lf-ref">Your reference: ' + sfEsc(ref) + '</span>' : "";
+  lfBanner("lf-done-dev", CONFIG.ENDPOINT ? "" : "Developer note: demo mode, nothing was sent. See the browser console.");
+  setTimeout(function () { lf$("lf-done-h").focus({ preventScroll: true }); }, 30);
+  LF = { pains: [], urgency: "", submitting: false, touched: {}, cref: "" };
+  ["name", "email", "phone", "company", "note"].forEach(function (k) { lf$("lf-" + k).value = ""; }); lf$("lf-consent").checked = false;
+}
+/* wiring */
+lf$("lf-close").addEventListener("click", closeLeadForm);
+lf$("lf-done-btn").addEventListener("click", closeLeadForm);
+lf$("lf").addEventListener("mousedown", function (e) { if (e.target === lf$("lf")) closeLeadForm(); });
+lf$("lf-form").addEventListener("submit", function (e) { e.preventDefault(); lfSubmit(); });
+["name", "email", "phone"].forEach(function (k) {
+  lf$("lf-" + k).addEventListener("blur", function () { if (lf$("lf-" + k).value || LF.touched[k]) { LF.touched[k] = true; lfCheckField(k); } });
+  lf$("lf-" + k).addEventListener("input", function () { if (LF.touched[k]) lfCheckField(k); });
+});
+lf$("lf-email").addEventListener("input", function () { lf$("lf-hint-email").hidden = !LF_FREE.test(lf$("lf-email").value); });
+lf$("lf-email").addEventListener("blur", function () { var c = lf$("lf-company"); if (!c.value.trim()) { var g = guessCompany(lf$("lf-email").value); if (g) c.value = g; } });
+lf$("lf-consent").addEventListener("change", function () { if (lf$("lf-consent").checked) { lf$("lf-consent-box").classList.remove("bad"); lfSetErr("consent", ""); var ce = lf$("lf-err-consent"); ce.classList.remove("show"); } });
+document.addEventListener("keydown", function (e) {
+  if (!lf$("lf").classList.contains("open")) return;
+  if (e.key === "Escape") { e.preventDefault(); closeLeadForm(); return; }
+  if (e.key === "Tab") { var f = lfFocusable(); if (!f.length) return; var a = f[0], z = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); } else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); } }
+});
+
+/* iframe support: tell the parent page how tall to be (harmless when not in an iframe) */
+(function () {
+  var modalOpen = false;
+  function pushH(scroll) {
+    if (window.parent === window) return;
+    var s = document.getElementById("sfinder"), h = s ? Math.ceil(s.getBoundingClientRect().height) : 0;
+    if (modalOpen && h < 900) h = 900;
+    try { window.parent.postMessage({ peopleos: "h", h: h, scroll: !!scroll }, "*"); } catch (e) { }
+  }
+  var _o = openLeadForm, _c = closeLeadForm;
+  openLeadForm = function () { _o(); modalOpen = true; pushH(true); };
+  closeLeadForm = function () { _c(); modalOpen = false; pushH(false); };
+  lf$("lf-close").addEventListener("click", function () { modalOpen = false; pushH(false); });
+  lf$("lf-done-btn").addEventListener("click", function () { modalOpen = false; pushH(false); });
+  if (window.ResizeObserver) { new ResizeObserver(function () { pushH(false); }).observe(document.getElementById("sfinder")); }
+  else { setInterval(function () { pushH(false); }, 700); }
+  window.addEventListener("load", function () { pushH(false); });
+})();
+
+/* public surface for developers and tests */
+window.PeopleOSFinder = { CONFIG: CONFIG, getRules: function () { return RULES; }, interpret: function (s) { return ENG.interpret(s); }, openLeadForm: openLeadForm, closeLeadForm: closeLeadForm, buildLeadPayload: buildLeadPayload, state: function () { return { sentence: { org: sfLabel("org"), goal: sfLabel("goal"), challenge: sfLabel("chal") }, result: sfPublicResult() }; } };
+</script>
+<!-- PEOPLEOS END -->
+</body>
+</html>
